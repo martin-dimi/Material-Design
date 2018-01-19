@@ -3,6 +3,7 @@ package com.example.xyzreader.ui;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 
 public class DynamicHeightNetworkImageView extends NetworkImageView {
@@ -23,6 +24,11 @@ public class DynamicHeightNetworkImageView extends NetworkImageView {
     public void setAspectRatio(float aspectRatio) {
         mAspectRatio = aspectRatio;
         requestLayout();
+    }
+
+    @Override
+    public void setImageUrl(String url, ImageLoader imageLoader) {
+        super.setImageUrl(url, imageLoader);
     }
 
     @Override
