@@ -20,6 +20,8 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.format.DateUtils;
+import android.transition.Explode;
+import android.transition.Slide;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.MenuItem;
@@ -67,14 +69,16 @@ public class ArticleListActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_list);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar = findViewById(R.id.toolbar);
 
-        final View toolbarContainerView = findViewById(R.id.toolbar_container);
+        mSwipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
-
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        mRecyclerView = findViewById(R.id.recycler_view);
         getLoaderManager().initLoader(0, null, this);
+
+        Slide explode = new Slide();
+        explode.setDuration(3000);
+        getWindow().setExitTransition(explode);
 
         if (savedInstanceState == null) {
             refresh();
@@ -155,8 +159,10 @@ public class ArticleListActivity extends AppCompatActivity implements
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     startActivity(new Intent(Intent.ACTION_VIEW,
                             ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition()))));
+
                 }
             });
             return vh;
@@ -193,20 +199,9 @@ public class ArticleListActivity extends AppCompatActivity implements
                         + "<br/>" + " by "
                         + mCursor.getString(ArticleLoader.Query.AUTHOR)));
             }
-//            holder.thumbnailView.setAspectRatio(mCursor.getFloat(ArticleLoader.Query.ASPECT_RATIO));
-//            holder.thumbnailView.setImageUrl(
-//                    mCursor.getString(ArticleLoader.Query.THUMB_URL),
-//                    ImageLoaderHelper.getInstance(ArticleListActivity.this).getImageLoader());
 
             String url =  mCursor.getString(ArticleLoader.Query.THUMB_URL);
             holder.setImage(url);
-
-
-//            Bitmap bitmap;
-//            int cardColor = Palette.from(bitmap)
-//                    .generate()
-//                    .getDominantColor(getResources().getColor(R.color.card_background_default));
-//            holder.setBackground(cardColor);
 
         }
 

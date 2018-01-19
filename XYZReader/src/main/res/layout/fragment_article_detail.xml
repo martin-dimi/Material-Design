@@ -1,133 +1,83 @@
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:ignore="MergeRootFrame">
+    android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/detail_photo_height"
-        android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:layout_height="wrap_content"
+        android:elevation="4dp">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            app:contentScrim="@color/theme_primary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:contentScrim="@color/theme_primary_dark">
 
             <ImageView
                 android:id="@+id/photo"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
+                android:layout_height="@dimen/detail_photo_height"
+                app:layout_collapseMode="parallax"
                 android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax"/>
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/detail_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-
-            </android.support.v7.widget.Toolbar>
+                app:layout_collapseParallaxMultiplier="0.9"/>
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
+        <include
+            android:id="@+id/detail_head"
+            layout="@layout/detail_head" />
+
+
     </android.support.design.widget.AppBarLayout>
 
-    <ObservableScrollView
+    <android.support.v4.widget.NestedScrollView
         android:id="@+id/scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
-        android:clipToPadding="false"
-        android:background="@color/white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/article_title"
-                style="@style/TextAppearance.AppCompat.Headline"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:maxLines="1"
-                android:textColor="@color/theme_primary_text_color"
-                android:visibility="visible"
-                android:textStyle="bold"
-                tools:text="Hello"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/article_date"
-                    style="@style/TextAppearance.AppCompat.Caption"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/theme_primary"
-                    tools:text="Hello"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    style="@style/TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/theme_primary" />
-
-                <TextView
-                    android:id="@+id/article_author"
-                    style="@style/TextAppearance.AppCompat.Caption"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/theme_primary_text_color"
-                    tools:text="by charles"/>
-
-            </LinearLayout>
 
             <TextView
                 android:id="@+id/article_body"
-                style="@style/TextAppearance.AppCompat.Subhead"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:layout_marginEnd="@dimen/detail_body_side_margin"
+                android:layout_marginStart="@dimen/detail_body_side_margin"
                 android:layout_marginTop="30dp"
                 android:autoLink="web"
+                android:fontFamily="@font/roboto"
                 android:linksClickable="true"
-                android:textColor="@color/theme_primary_text_color" />
+                android:textColor="@color/theme_primary"
+                tools:text="@string/dummy_text" />
 
         </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
-    </ObservableScrollView>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/share_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fabSize="mini"
 
-
-
-
-    <ImageButton android:id="@+id/share_fab"
-        android:stateListAnimator="@anim/fab_state_list_anim"
-        android:background="@drawable/add_fab_background"
-        android:layout_gravity="bottom|end"
-        android:layout_marginRight="@dimen/fab_margin"
-        android:layout_marginBottom="@dimen/fab_margin"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:src="@drawable/ic_share"
         android:elevation="@dimen/fab_elevation"
+        app:layout_anchorGravity="bottom|end"
+        app:layout_anchor="@id/detail_head"
+        android:layout_marginEnd="16dp"
+
+        android:stateListAnimator="@animator/fab_state_list_anim"
+        android:background="@drawable/add_fab_background"
+        android:src="@drawable/ic_share"
         android:contentDescription="@string/action_share" />
 
 </android.support.design.widget.CoordinatorLayout>

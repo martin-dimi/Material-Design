@@ -17,11 +17,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!--<com.example.xyzreader.ui.DynamicHeightNetworkImageView-->
-            <!--android:id="@+id/thumbnail"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content" />-->
-
         <ImageView
             android:id="@+id/thumbnail"
             android:adjustViewBounds="true"

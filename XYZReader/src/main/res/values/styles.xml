@@ -22,6 +22,8 @@
         <item name="colorPrimary">@color/theme_primary</item>
         <item name="colorAccent">@color/theme_accent</item>
         <item name="colorControlNormal">@android:color/white</item>
+
+        <item name="android:windowActivityTransitions">true</item>
     </style>
 
     <style name="ExpandedMenu">

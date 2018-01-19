@@ -25,5 +25,4 @@
     <color name="theme_primary_text_color">#d7dfdfdf</color>
 
     <color name="card_background_default">#263238</color>
-    <color name="white">@android:color/white</color>
 </resources>
