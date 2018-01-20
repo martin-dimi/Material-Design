@@ -1,4 +1,5 @@
 <android.support.design.widget.CoordinatorLayout
+    android:id="@+id/main_coordinator"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -21,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:src="@drawable/logo"
-                android:tint="@color/theme_primary_light"
+                android:tint="@color/theme_primary_text_color"
                 android:contentDescription="@string/app_name"
                 app:layout_collapseMode="parallax"
                 />
@@ -47,7 +48,7 @@
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/theme_primary_light"
+            android:background="@color/theme_primary_text_color"
             android:clipToPadding="false"
             android:paddingBottom="@dimen/list_side_bottom"
             android:paddingStart="@dimen/list_side_margin"

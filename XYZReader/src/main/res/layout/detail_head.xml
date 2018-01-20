@@ -19,7 +19,7 @@
         android:layout_marginTop="6dp"
         android:layout_marginStart="12dp"
         android:maxLines="1"
-        android:textColor="@color/theme_primary_light"
+        android:textColor="@color/theme_primary_text_color"
         android:textStyle="bold"
         tools:text="Hello"/>
 
@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             style="@style/TextAppearance.AppCompat.Subhead"
             android:layout_height="wrap_content"
-            android:textColor="@color/theme_primary_light"
+            android:textColor="@color/theme_primary_text_color"
             android:textStyle="italic"
             tools:text="2017"/>
 
@@ -44,14 +44,14 @@
             android:layout_height="wrap_content"
             style="@style/TextAppearance.AppCompat.Subhead"
             android:textStyle="italic"
-            android:textColor="@color/theme_primary_light" />
+            android:textColor="@color/theme_primary_text_color" />
 
         <TextView
             android:id="@+id/article_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="3dp"
-            android:textColor="@color/theme_primary_light"
+            android:textColor="@color/theme_primary_text_color"
             style="@style/TextAppearance.AppCompat.Subhead"
             android:textStyle="italic"
             tools:text="by Charles"/>

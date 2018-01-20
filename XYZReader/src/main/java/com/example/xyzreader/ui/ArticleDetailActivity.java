@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -52,6 +53,7 @@ public class ArticleDetailActivity extends AppCompatActivity
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics()));
         mPager.setPageMarginDrawable(new ColorDrawable(0x22000000));
 
+        mPager.setPageTransformer(true, new ArticlePageTransformer());
         mPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageScrollStateChanged(int state) {
@@ -105,8 +107,15 @@ public class ArticleDetailActivity extends AppCompatActivity
         return ArticleLoader.newAllArticlesInstance(this);
     }
 
+
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+
+        if(cursor == null || cursor.getCount() == 0) {
+            View view = findViewById(R.id.main_coordinator);
+            Snackbar.make(view, getString(R.string.snackbar_data_issue), Snackbar.LENGTH_LONG);
+        }
+
         mCursor = cursor;
         mPagerAdapter.notifyDataSetChanged();
 

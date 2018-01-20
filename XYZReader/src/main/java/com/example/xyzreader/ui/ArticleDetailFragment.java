@@ -60,10 +60,10 @@ public class ArticleDetailFragment extends Fragment implements
     private long mItemId;
     private View mRootView;
     private int mMutedColor = 0xFF333333;
-    private DrawInsetsFrameLayout mDrawInsetsFrameLayout;
 
     private FloatingActionButton fab;
     private ImageView mPhotoView;
+    private LinearLayout mHead;
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss");
     // Use default locale format
@@ -121,6 +121,7 @@ public class ArticleDetailFragment extends Fragment implements
 
         fab = mRootView.findViewById(R.id.share_fab);
         mPhotoView = mRootView.findViewById(R.id.photo);
+        mHead = mRootView.findViewById(R.id.detail_head);
 
         mRootView.findViewById(R.id.share_fab).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,8 +207,13 @@ public class ArticleDetailFragment extends Fragment implements
                         public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
                             Bitmap bitmap = imageContainer.getBitmap();
                             if (bitmap != null) {
-                                Palette p = Palette.generate(bitmap, 12);
-                                mMutedColor = p.getDarkMutedColor(0xFF333333);
+                                Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                                    @Override
+                                    public void onGenerated(Palette palette) {
+                                        int background = palette.getDarkMutedColor(getResources().getColor(R.color.card_background_default));
+                                        setBackground(background);
+                                    }
+                                });
                                 mPhotoView.setImageBitmap(imageContainer.getBitmap());
                             }
                         }
@@ -223,6 +229,10 @@ public class ArticleDetailFragment extends Fragment implements
             bylineView.setText("N/A" );
             bodyView.setText("N/A");
         }
+    }
+
+    private void setBackground(int background){
+        mHead.setBackground(new ColorDrawable(background));
     }
 
     @Override

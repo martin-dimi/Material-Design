@@ -10,7 +10,10 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
@@ -44,7 +47,7 @@ import java.util.GregorianCalendar;
  * activity presents a grid of items as cards.
  */
 public class ArticleListActivity extends AppCompatActivity implements
-        LoaderManager.LoaderCallbacks<Cursor> {
+        LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = ArticleListActivity.class.toString();
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -62,6 +65,7 @@ public class ArticleListActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_article_list);
 
         mSwipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
 
         mRecyclerView = findViewById(R.id.recycler_view);
         getLoaderManager().initLoader(0, null, this);
@@ -69,9 +73,20 @@ public class ArticleListActivity extends AppCompatActivity implements
         Explode explode = new Explode();
         getWindow().setExitTransition(explode);
 
-        if (savedInstanceState == null) {
+        if (isConnected() && savedInstanceState == null) {
             refresh();
         }
+    }
+
+    public boolean isConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        if (ni == null || !ni.isConnected()) {
+            View view = findViewById(R.id.main_coordinator);
+            Snackbar.make(view, getString(R.string.snackbar_data_issue), Snackbar.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
     }
 
     private void refresh() {
@@ -125,6 +140,12 @@ public class ArticleListActivity extends AppCompatActivity implements
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mRecyclerView.setAdapter(null);
+    }
+
+    @Override
+    public void onRefresh() {
+        if (isConnected())
+            refresh();
     }
 
 
@@ -221,10 +242,14 @@ public class ArticleListActivity extends AppCompatActivity implements
                     .into(new Target() {
                         @Override
                         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                            Palette palette = Palette.from(bitmap)
-                                    .generate();
-                            int background = palette.getDarkMutedColor(getResources().getColor(R.color.card_background_default));
-                            setBackground(background);
+                            Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                                @Override
+                                public void onGenerated(Palette palette) {
+                                    int background = palette.getDarkMutedColor(getResources().getColor(R.color.card_background_default));
+                                    setBackground(background);
+                                }
+                            });
+
                            // setTextColor(text);
                             thumbnailView.setImageBitmap(bitmap);
                         }
