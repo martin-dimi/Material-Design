@@ -11,33 +11,26 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.format.DateUtils;
 import android.transition.Explode;
-import android.transition.Slide;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
 import com.example.xyzreader.R;
 import com.example.xyzreader.data.ArticleLoader;
 import com.example.xyzreader.data.ItemsContract;
 import com.example.xyzreader.data.UpdaterService;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
-import com.squareup.picasso.Transformation;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -54,7 +47,6 @@ public class ArticleListActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String TAG = ArticleListActivity.class.toString();
-    private Toolbar mToolbar;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
 
@@ -69,15 +61,12 @@ public class ArticleListActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_list);
 
-        mToolbar = findViewById(R.id.toolbar);
-
         mSwipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
 
         mRecyclerView = findViewById(R.id.recycler_view);
         getLoaderManager().initLoader(0, null, this);
 
-        Slide explode = new Slide();
-        explode.setDuration(3000);
+        Explode explode = new Explode();
         getWindow().setExitTransition(explode);
 
         if (savedInstanceState == null) {
@@ -142,7 +131,7 @@ public class ArticleListActivity extends AppCompatActivity implements
     private class Adapter extends RecyclerView.Adapter<ViewHolder> {
         private Cursor mCursor;
 
-        public Adapter(Cursor cursor) {
+        Adapter(Cursor cursor) {
             mCursor = cursor;
         }
 
@@ -211,13 +200,13 @@ public class ArticleListActivity extends AppCompatActivity implements
         }
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public View background;
-        public ImageView thumbnailView;
-        public TextView titleView;
-        public TextView subtitleView;
+    class ViewHolder extends RecyclerView.ViewHolder {
+        View background;
+        ImageView thumbnailView;
+        TextView titleView;
+        TextView subtitleView;
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             super(view);
             background = view.findViewById(R.id.card_background);
             thumbnailView = view.findViewById(R.id.thumbnail);
@@ -225,7 +214,7 @@ public class ArticleListActivity extends AppCompatActivity implements
             subtitleView = view.findViewById(R.id.article_subtitle);
         }
 
-        public void setImage(String url){
+        void setImage(String url){
             Picasso.with(getApplicationContext())
                     .load(url)
                     .priority(Picasso.Priority.HIGH)
@@ -235,7 +224,6 @@ public class ArticleListActivity extends AppCompatActivity implements
                             Palette palette = Palette.from(bitmap)
                                     .generate();
                             int background = palette.getDarkMutedColor(getResources().getColor(R.color.card_background_default));
-                            int text = palette.getLightMutedColor(getResources().getColor(R.color.theme_primary_text_color));
                             setBackground(background);
                            // setTextColor(text);
                             thumbnailView.setImageBitmap(bitmap);
@@ -255,11 +243,6 @@ public class ArticleListActivity extends AppCompatActivity implements
         }
         void setBackground(int color){
             background.setBackground(new ColorDrawable(color));
-        }
-
-        void setTextColor(int color){
-            titleView.setTextColor(color);
-            subtitleView.setTextColor(color);
         }
     }
 }
