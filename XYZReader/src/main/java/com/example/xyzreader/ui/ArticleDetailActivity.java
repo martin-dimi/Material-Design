@@ -19,7 +19,7 @@ import android.view.WindowInsets;
 
 import com.example.xyzreader.R;
 import com.example.xyzreader.data.ArticleLoader;
-import com.example.xyzreader.data.ItemsContract;
+
 
 /**
  * An activity representing a single Article detail screen, letting you swipe between articles.
@@ -27,10 +27,11 @@ import com.example.xyzreader.data.ItemsContract;
 public class ArticleDetailActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    public static final String ARTICLE_POSITION = "article_position";
+
     private Cursor mCursor;
     private long mStartId;
 
-    private int mSelectedItemUpButtonFloor = Integer.MAX_VALUE;
     private int mTopInset;
 
     private ViewPager mPager;
@@ -43,8 +44,8 @@ public class ArticleDetailActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_article_detail);
-
         getLoaderManager().initLoader(0, null, this);
+
 
         mPagerAdapter = new MyPagerAdapter(getFragmentManager());
         mPager = findViewById(R.id.pager);
@@ -95,10 +96,8 @@ public class ArticleDetailActivity extends AppCompatActivity
             });
         }
 
-        if (savedInstanceState == null) {
-            if (getIntent() != null && getIntent().getData() != null) {
-                mStartId = ItemsContract.Items.getItemId(getIntent().getData());
-            }
+        if (savedInstanceState == null && getIntent() != null) {
+            mStartId = getIntent().getExtras().getLong(ARTICLE_POSITION);
         }
     }
 
@@ -144,6 +143,7 @@ public class ArticleDetailActivity extends AppCompatActivity
 
     private void updateUpButtonPosition() {
         int upButtonNormalBottom = mTopInset + mUpButton.getHeight();
+        int mSelectedItemUpButtonFloor = Integer.MAX_VALUE;
         mUpButton.setTranslationY(Math.min(mSelectedItemUpButtonFloor - upButtonNormalBottom, 0));
     }
 
@@ -166,6 +166,7 @@ public class ArticleDetailActivity extends AppCompatActivity
             mCursor.moveToPosition(position);
             return ArticleDetailFragment.newInstance(mCursor.getLong(ArticleLoader.Query._ID));
         }
+
 
         @Override
         public int getCount() {
