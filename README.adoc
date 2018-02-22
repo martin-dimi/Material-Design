@@ -3,6 +3,7 @@ XYZReader
 
 The purpose of this app was to teach me [Material Design](https://material.google.com) and animations in Android.
 
+
 Build Instructions (Mac OS X)
 -----------------------------
 - Clone the repository
