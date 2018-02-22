@@ -2,6 +2,8 @@
 
 The purpose of this app was to teach me [Material Design](https://material.google.com) and animations in Android.
 
+## Screenshots
+<img src="pics/1.png" height="360" width="200"> <img src="pics/2.png" height="360" width="200">
 
 ## Build Instructions
 - Clone the repository
