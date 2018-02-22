@@ -1,4 +1,5 @@
 # Material Design
+[![Crates.io](https://img.shields.io/crates/l/rustc-serialize.svg?maxAge=2592000)]()
 
 The purpose of this app was to teach me [Material Design](https://material.google.com) and animations in Android.
 
