@@ -20,7 +20,7 @@ The purpose of this app was to teach me [Material Design](https://material.googl
 - Article list made with Recycler View
 - Pull to Refresh made with RecyclerView
 - Layout support for mobile phones and tablets, both portrait and landscape
-- Call to action using Floating Action Button with custom behavior
+- Call to action using Floating Action Button with custom behaviour
 - Displaying of standard error messages using SnackBar
 - Full Screen View Pager providing a horizontal scroll to view another set of article
 
